@@ -9,6 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>java-ee-lesson-one</module>
+        <module>java-spring-lesson-two</module>
+        <module>java-spring-mvc-lesson-three</module>
     </modules>
     <packaging>pom</packaging>
 

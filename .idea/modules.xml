@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/java-ee-lesson-one/java-ee-lesson-one.iml" filepath="$PROJECT_DIR$/java-ee-lesson-one/java-ee-lesson-one.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-spring.iml" filepath="$PROJECT_DIR$/java-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-spring-lesson-two/java-spring-lesson-two.iml" filepath="$PROJECT_DIR$/java-spring-lesson-two/java-spring-lesson-two.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-spring-mvc-lesson-three/java-spring-mvc-lesson-three.iml" filepath="$PROJECT_DIR$/java-spring-mvc-lesson-three/java-spring-mvc-lesson-three.iml" />
+    </modules>
+  </component>
+</project>
