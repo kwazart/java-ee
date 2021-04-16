@@ -11,6 +11,8 @@
         <module>java-ee-lesson-one</module>
         <module>java-spring-lesson-two</module>
         <module>java-spring-mvc-lesson-three</module>
+        <module>java-spring-boot-lesson-four</module>
+        <module>hibernate-block</module>
     </modules>
     <packaging>pom</packaging>
 
