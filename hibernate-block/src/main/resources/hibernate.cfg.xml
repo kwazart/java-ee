@@ -11,7 +11,12 @@
         <property name="connection.pool_size">1</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
         <property name="show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
         <property name="current_session_context_class">thread</property>
+
+        <mapping class="com.polozov.hibernate.entities.Customer"/>
+        <mapping class="com.polozov.hibernate.entities.Manufacturer"/>
+        <mapping class="com.polozov.hibernate.entities.Product"/>
+        <mapping class="com.polozov.hibernate.entities.BigItem"/>
     </session-factory>
 </hibernate-configuration>
