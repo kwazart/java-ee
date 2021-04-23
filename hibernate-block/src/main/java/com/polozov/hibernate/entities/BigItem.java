@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "big_items")
 public class BigItem {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long id;
 
@@ -20,6 +20,10 @@ public class BigItem {
 	long version;
 
 	public BigItem() {
+	}
+
+	public BigItem(int val) {
+		this.val = val;
 	}
 
 	public Long getId() {
