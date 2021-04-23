@@ -14,11 +14,17 @@
 <div class="container">
     <div class="col-10 mx-auto mt-3">
         <div class="row">
-            <div class="col-10">
+            <div class="col-6">
                 <h1>Product list</h1>
             </div>
-            <div class="col-2">
-                <a class="btn btn-outline-dark" th:href="@{/product/new}">ADD</a>
+            <div class="col-6">
+                <form class="form-inline" th:method="get">
+                    <!-- TODO добавить поля фильтров из ДЗ -->
+                    <input type="text" th:value="${param.titleFilter}" class="form-control-md" id="title-filter"
+                           name="titleFilter" placeholder="Find">
+                    <button type="submit" class="btn btn-outline-dark"><i class="fas fa-search"></i></button>
+                    <a class="btn btn-outline-dark" th:href="@{/product/new}">ADD</a>
+                </form>
             </div>
         </div>
 
@@ -35,13 +41,14 @@
             <tbody>
             <tr th:each="product : ${products}">
                 <th scope="row" th:text="${product.id}">1</th>
-                <th scope="row" th:text="${product.name}">1</th>
+                <th scope="row" th:text="${product.title}">1</th>
                 <th scope="row" th:text="${product.description}">1</th>
                 <th scope="row" th:text="${product.price}">1</th>
                 <th>
                     <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
                             class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger" th:href="@{/product/delete/{id}(id = ${product.id})}"><i class="far fa-trash-alt"></i></a>
+                    <a class="btn btn-danger" th:href="@{/product/delete/{id}(id = ${product.id})}">
+                        <i class="far fa-trash-alt"></i></a>
                 </th>
             </tr>
             </tbody>

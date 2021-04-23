@@ -5,10 +5,7 @@ import com.polozov.javaspringbootlessonfour.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/product")
@@ -18,8 +15,13 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping
-	public String indexPage(Model model) {
-		model.addAttribute("products", productService.getAllProduct());
+	public String indexPage(Model model, @RequestParam(name = "titleFilter", required = false) String titleFilter) {
+		// TODO: 23.04.2021 Добавить обработку параметров формы
+		if (titleFilter == null || titleFilter.isBlank()) {
+			model.addAttribute("products", productService.getAllProduct());
+		} else {
+			model.addAttribute("products", productService.getByTitle(titleFilter));
+		}
 		return "product_views/index";
 	}
 
@@ -32,11 +34,7 @@ public class ProductController {
 
 	@PostMapping("/product_update")
 	public String updateProduct(Product product) {
-		if (product.getId() == null) {
-			productService.add(product);
-		} else {
-			productService.update(product);
-		}
+		productService.addOrUpdate(product);
 		return "redirect:/product";
 	}
 
