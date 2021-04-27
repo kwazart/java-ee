@@ -9,5 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-	List<Product> findProductByTitleLike(String title);
 }

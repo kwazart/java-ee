@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"/>
+<body>
+
+<div class="container">
+    <section class="error-container text-center">
+        <h1>404</h1>
+        <div class="error-divider">
+            <h2>PAGE NOT FOUND</h2>
+            <p class="description">We couldn't find this page</p>
+        </div>
+        <a href="/product" class="return-btn"><i class="fa fa-home">Home</i></a>
+    </section>
+</div>
+
+<script th:replace="fragments/footer :: scripts"/>
+</body>
+</html>

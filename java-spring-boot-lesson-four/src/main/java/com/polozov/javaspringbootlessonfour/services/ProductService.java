@@ -4,10 +4,13 @@ import com.polozov.javaspringbootlessonfour.entities.Product;
 import com.polozov.javaspringbootlessonfour.repositories.ProductRepository;
 import com.polozov.javaspringbootlessonfour.repositories.specifications.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +25,8 @@ public class ProductService {
 	}
 
 	@Transactional
-	public List<Product> getAllProduct() {
-		return productRepository.findAll();
-	}
-
-	@Transactional
-	public Product getById(Long id) {
-		return productRepository.findById(id).get();
+	public Optional<Product> getById(Long id) {
+		return productRepository.findById(id);
 	}
 
 	@Transactional
@@ -42,17 +40,26 @@ public class ProductService {
 	}
 
 	@Transactional
-	public List<Product> getByTitle(String nameFilter) {
-//		if (!nameFilter.contains("%")) {
-//			nameFilter = String.join("", "%", nameFilter, "%");
-//		}
-//		return productRepository.findProductByTitleLike(nameFilter);
-
-		// select * from Product p where 1 = 1 and p.title like nameFilter;
+	public Page<Product> getByParams(Optional<String> nameFilter,
+	                                 Optional<BigDecimal> min,
+	                                 Optional<BigDecimal> max,
+	                                 Optional<Integer> page,
+	                                 Optional<Integer> size) {
 
 		Specification<Product> specification = Specification.where(null);
-		specification = specification.and(ProductSpecification.titleLike(nameFilter));
+		if (nameFilter.isPresent()) {
+			specification = specification.and(ProductSpecification.titleLike(nameFilter.get()));
+		}
 
-		return productRepository.findAll(specification);
+		if (min.isPresent()) {
+			specification = specification.and(ProductSpecification.ge(min.get()));
+		}
+
+		if (max.isPresent()) {
+			specification = specification.and(ProductSpecification.le(max.get()));
+		}
+
+		return productRepository.findAll(specification,
+				PageRequest.of(page.orElse(1) - 1, size.orElse(4)));
 	}
 }
