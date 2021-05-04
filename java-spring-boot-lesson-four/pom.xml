@@ -52,6 +52,13 @@
             <version>1.5.8</version>
         </dependency>
         <!-- localhost:8080/swagger-ui.html -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

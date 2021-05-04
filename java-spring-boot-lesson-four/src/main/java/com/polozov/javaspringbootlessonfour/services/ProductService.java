@@ -6,6 +6,7 @@ import com.polozov.javaspringbootlessonfour.repositories.specifications.ProductS
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,12 +42,14 @@ public class ProductService {
 
 	@Transactional
 	public Page<Product> getByParams(Optional<String> nameFilter,
-	                                 Optional<BigDecimal> min,
-	                                 Optional<BigDecimal> max,
-	                                 Optional<Integer> page,
-	                                 Optional<Integer> size) {
-
+	                                    Optional<BigDecimal> min,
+	                                    Optional<BigDecimal> max,
+	                                    Optional<Integer> page,
+	                                    Optional<Integer> size,
+	                                    Optional<String> sortField,
+	                                    Optional<String> sortOrder) {
 		Specification<Product> specification = Specification.where(null);
+
 		if (nameFilter.isPresent()) {
 			specification = specification.and(ProductSpecification.titleLike(nameFilter.get()));
 		}
@@ -59,8 +62,12 @@ public class ProductService {
 			specification = specification.and(ProductSpecification.le(max.get()));
 		}
 
-		return productRepository.findAll(specification,
-				PageRequest.of(page.orElse(1) - 1, size.orElse(4)));
+		if (sortField.isPresent() && sortOrder.isPresent()) {
+			return productRepository.findAll(specification, PageRequest.of(page.orElse(1) - 1, size.orElse(4),
+					Sort.by(Sort.Direction.fromString(sortOrder.get()), sortField.get())));
+		}
+
+		return productRepository.findAll(specification, PageRequest.of(page.orElse(1) - 1, size.orElse(4)));
 	}
 }
 

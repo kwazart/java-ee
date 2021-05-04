@@ -1,5 +1,8 @@
 package com.polozov.javaspringbootlessonfour.rest;
 
+import com.polozov.javaspringbootlessonfour.dto.ProductDTO;
+import com.polozov.javaspringbootlessonfour.dto.UserDTO;
+import com.polozov.javaspringbootlessonfour.entities.Product;
 import com.polozov.javaspringbootlessonfour.entities.User;
 import com.polozov.javaspringbootlessonfour.services.UserService;
 import com.polozov.javaspringbootlessonfour.services.exceptions.NotFoundException;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "User API", description = "API to manipulate user resources")
 @RestController
@@ -24,8 +28,9 @@ public class UserRestController {
 	}
 
 	@GetMapping(path = "/{id}/id", produces = "application/json")
-	public User findById(@PathVariable("id") Long id) {
-		return service.findById(id).orElseThrow(NotFoundException::new);
+	public UserDTO findById(@PathVariable("id") Long id) {
+		User user = service.findById(id).orElseThrow(NotFoundException::new);
+		return toDTO(user);
 	}
 
 	@GetMapping(path = "/list", produces = "application/json")
@@ -53,5 +58,27 @@ public class UserRestController {
 	@ExceptionHandler
 	public ResponseEntity<String> notFoundExceptionHandler(NotFoundException e) {
 		return new ResponseEntity<>("Entity not found", HttpStatus.NOT_FOUND);
+	}
+
+	private UserDTO toDTO(User user) {
+		return UserDTO.builder()
+				.id(user.getId())
+				.login(user.getLogin())
+				.nickname("little-" + user.getLogin())
+				.productDTOS(toDTOs(user.getProducts()))
+				.build();
+	}
+
+	private List<ProductDTO> toDTOs(List<Product> products) {
+		return products.stream().map(p -> toDTO(p)).collect(Collectors.toList());
+	}
+
+	private ProductDTO toDTO(Product product) {
+		return ProductDTO.builder()
+				.id(product.getId())
+				.title(product.getTitle())
+				.description(product.getDescription())
+				.price(product.getPrice())
+				.build();
 	}
 }
