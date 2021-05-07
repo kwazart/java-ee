@@ -3,6 +3,7 @@ package com.polozov.javaspringbootlessonfour.services;
 import com.polozov.javaspringbootlessonfour.entities.User;
 import com.polozov.javaspringbootlessonfour.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,12 @@ import java.util.Optional;
 public class UserService {
 
 	private UserRepository repository;
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Autowired
 	public void setRepository(UserRepository repository) {
@@ -21,15 +28,14 @@ public class UserService {
 
 	@Transactional
 	public User createOrUpdate(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return  repository.save(user);
 	}
 
-	@Transactional
 	public Optional<User> findById(Long id) {
 		return repository.findById(id);
 	}
 
-	@Transactional
 	public List<User> findAll () {
 		return repository.findAll();
 	}
@@ -39,5 +45,7 @@ public class UserService {
 		repository.deleteById(id);
 	}
 
-
+	public boolean existById(Long id) {
+		return repository.existsById(id);
+	}
 }
